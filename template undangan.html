@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Undangan Pernikahan</title>
+
+	<!-- Google Font (opsional) -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;500&display=swap"
+		rel="stylesheet">
+
+	<style>
+		:root {
+			--primary: #c59d5f;
+			--page-bg: radial-gradient(circle at top, #f6eee3, #f3e8dc);
+			--bg-card: #faf7f2;
+			--text-main: #333;
+			--muted: #777;
+		}
+
+		/* === DARK MODE VARIABLE OVERRIDE === */
+		body.dark-mode {
+			--page-bg: radial-gradient(circle at top, #020617, #020617 55%, #0f172a);
+			--bg-card: #020617;
+			--text-main: #e5e7eb;
+			--muted: #9ca3af;
+			--primary: #fbbf24;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			background: var(--page-bg);
+			color: var(--text-main);
+			display: flex;
+			justify-content: center;
+			padding: 24px;
+			min-height: 100vh;
+			position: relative;
+			overflow-x: hidden;
+			transition: background 0.3s ease, color 0.3s ease;
+		}
+
+		/* Background lembut statis (tanpa animasi) */
+		body::before,
+		body::after {
+			content: "";
+			position: fixed;
+			width: 220px;
+			height: 220px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(197, 157, 95, 0.16), transparent 70%);
+			z-index: -1;
+			opacity: 0.7;
+			pointer-events: none;
+		}
+
+		body::before {
+			top: -80px;
+			left: -40px;
+		}
+
+		body::after {
+			bottom: -80px;
+			right: -40px;
+		}
+
+		body.dark-mode::before,
+		body.dark-mode::after {
+			background: radial-gradient(circle, rgba(148, 163, 184, 0.18), transparent 70%);
+		}
+
+		.card {
+			max-width: 800px;
+			width: 100%;
+			background: var(--bg-card);
+			border-radius: 24px;
+			box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+			border: 1px solid rgba(0, 0, 0, 0.04);
+			transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		body.dark-mode .card {
+			box-shadow: 0 18px 45px rgba(15, 23, 42, 0.7);
+			border-color: rgba(148, 163, 184, 0.4);
+		}
+
+		.header {
+			padding: 32px 24px 16px;
+			text-align: center;
+			background: linear-gradient(135deg, #f9f3ea, #fdfaf6);
+			border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+			position: relative;
+			overflow: hidden;
+			transition: background 0.3s ease, border-color 0.3s ease;
+		}
+
+		body.dark-mode .header {
+			background: linear-gradient(135deg, #020617, #020617);
+			border-bottom-color: rgba(148, 163, 184, 0.5);
+		}
+
+		.header::before,
+		.header::after {
+			content: "";
+			position: absolute;
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			border: 1px solid rgba(197, 157, 95, 0.12);
+			top: -40px;
+			z-index: 0;
+		}
+
+		.header::before {
+			left: -40px;
+		}
+
+		.header::after {
+			right: -40px;
+		}
+
+		body.dark-mode .header::before,
+		body.dark-mode .header::after {
+			border-color: rgba(148, 163, 184, 0.4);
+		}
+
+		.header-inner {
+			position: relative;
+			z-index: 1;
+		}
+
+		.tagline {
+			letter-spacing: 0.18em;
+			text-transform: uppercase;
+			font-size: 0.72rem;
+			color: var(--muted);
+			margin-bottom: 10px;
+		}
+
+		.names {
+			font-family: "Playfair Display", serif;
+			font-size: 2.1rem;
+			font-weight: 700;
+			color: var(--primary);
+			margin-bottom: 4px;
+		}
+
+		.and {
+			font-family: "Playfair Display", serif;
+			font-size: 1rem;
+			color: var(--muted);
+			margin: 4px 0;
+		}
+
+		.sub-names {
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		.divider {
+			margin: 20px auto 0;
+			width: 80px;
+			height: 1px;
+			background: linear-gradient(90deg, transparent, var(--primary), transparent);
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* NAV KECIL UNTUK SCROLL HALUS */
+		.top-nav {
+			margin-top: 18px;
+			display: inline-flex;
+			padding: 6px 10px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.7);
+			backdrop-filter: blur(10px);
+			gap: 4px;
+		}
+
+		body.dark-mode .top-nav {
+			background: rgba(15, 23, 42, 0.85);
+		}
+
+		.top-nav a {
+			border-radius: 999px;
+			padding: 6px 10px;
+			font-size: 0.75rem;
+			text-decoration: none;
+			color: var(--muted);
+			transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+		}
+
+		.top-nav a:hover {
+			background: var(--primary);
+			color: #fff;
+			transform: translateY(-1px);
+		}
+
+		.section {
+			padding: 24px 24px;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+			transition: background 0.3s ease, border-color 0.3s ease;
+		}
+
+		body.dark-mode .section {
+			border-bottom-color: rgba(30, 64, 175, 0.4);
+		}
+
+		.section:last-of-type {
+			border-bottom: none;
+		}
+
+		.section-title {
+			font-family: "Playfair Display", serif;
+			font-size: 1.1rem;
+			color: var(--primary);
+			margin-bottom: 8px;
+			text-align: center;
+		}
+
+		.section-subtitle {
+			text-align: center;
+			font-size: 0.9rem;
+			color: var(--muted);
+			margin-bottom: 14px;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+
+		.paragraph {
+			font-size: 0.95rem;
+			line-height: 1.7;
+			margin-bottom: 10px;
+		}
+
+		.bismillah {
+			font-family: "Playfair Display", serif;
+			font-size: 1.1rem;
+			margin-bottom: 8px;
+		}
+
+		.ayat {
+			font-size: 0.85rem;
+			color: var(--muted);
+			font-style: italic;
+			margin-top: 8px;
+		}
+
+		.info-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 16px;
+			margin-top: 8px;
+		}
+
+		.info-box {
+			background: white;
+			border-radius: 18px;
+			padding: 16px 14px;
+			border: 1px solid rgba(0, 0, 0, 0.03);
+			position: relative;
+			overflow: hidden;
+			transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.2s ease;
+		}
+
+		body.dark-mode .info-box {
+			background: #020617;
+			border-color: rgba(30, 64, 175, 0.6);
+		}
+
+		.info-box::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(circle at top, rgba(197, 157, 95, 0.08), transparent 70%);
+			opacity: 0;
+			transition: opacity 0.15s ease;
+			pointer-events: none;
+		}
+
+		.info-box:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+			border-color: rgba(197, 157, 95, 0.32);
+		}
+
+		.info-box:hover::before {
+			opacity: 1;
+		}
+
+		.info-label {
+			font-size: 0.8rem;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			color: var(--muted);
+			margin-bottom: 8px;
+		}
+
+		.info-main {
+			font-size: 0.95rem;
+			font-weight: 500;
+			margin-bottom: 4px;
+		}
+
+		.info-detail {
+			font-size: 0.86rem;
+			color: var(--muted);
+		}
+
+		.highlight {
+			font-weight: 600;
+			color: var(--primary);
+		}
+
+		.maps-wrapper {
+			margin-top: 12px;
+		}
+
+		.maps-note {
+			font-size: 0.8rem;
+			color: var(--muted);
+			margin-bottom: 6px;
+		}
+
+		.maps-frame {
+			width: 100%;
+			border-radius: 18px;
+			border: none;
+			min-height: 220px;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+			transition: transform 0.15s ease, box-shadow 0.15s ease;
+		}
+
+		.maps-frame:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.btn-maps {
+			display: inline-block;
+			margin-top: 10px;
+			padding: 10px 20px;
+			font-size: 0.9rem;
+			border-radius: 999px;
+			border: 1px solid var(--primary);
+			color: white;
+			background: var(--primary);
+			text-decoration: none;
+			transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+		}
+
+		.btn-maps:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+			background: #b48841;
+		}
+
+		.footer {
+			padding: 16px 24px 24px;
+			text-align: center;
+			font-size: 0.8rem;
+			color: var(--muted);
+		}
+
+		.footer strong {
+			color: var(--primary);
+		}
+
+		/* TOMBOL MUSIK & TEMA (FLOATING CONTROLS) */
+		.floating-controls {
+			position: fixed;
+			right: 16px;
+			bottom: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			z-index: 30;
+		}
+
+		.control-btn {
+			border: none;
+			border-radius: 999px;
+			padding: 8px 14px;
+			font-size: 0.82rem;
+			background: rgba(0, 0, 0, 0.72);
+			color: #f9fafb;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			cursor: pointer;
+			backdrop-filter: blur(8px);
+			box-shadow: 0 10px 24px rgba(15, 23, 42, 0.55);
+			transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s ease, color 0.2s ease;
+		}
+
+		.control-btn span {
+			font-size: 1rem;
+		}
+
+		.control-btn:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+			background: rgba(15, 23, 42, 0.9);
+		}
+
+		body.dark-mode .control-btn {
+			background: rgba(15, 23, 42, 0.95);
+		}
+
+		/* Responsive */
+		@media (max-width: 640px) {
+			body {
+				padding: 16px;
+			}
+
+			.header {
+				padding: 26px 18px 14px;
+			}
+
+			.names {
+				font-size: 1.7rem;
+			}
+
+			.card {
+				border-radius: 16px;
+			}
+
+			.section {
+				padding: 18px 16px;
+			}
+
+			.info-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.floating-controls {
+				right: 12px;
+				bottom: 12px;
+			}
+
+			.control-btn {
+				padding: 7px 10px;
+				font-size: 0.78rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- MUSIK LATAR (GANTI src DENGAN FILE MP3 KAMU) -->
+	<audio id="bg-music" loop>
+		<!-- Contoh: letakkan file musik-romantis.mp3 di folder yang sama -->
+		<source src="Jaz_-_Bersamamu__Official_Lyric_Video_(128k).m4a" type="audio/mp4" />
+		Browser Anda tidak mendukung pemutar audio.
+	</audio>
+
+	<!-- FLOATING BUTTON: MUSIK & TEMA -->
+	<div class="floating-controls">
+		<button id="music-toggle" class="control-btn" type="button">
+			<span id="music-icon">🔇</span>
+			<span id="music-text">Klik untuk putar musik</span>
+		</button>
+		<button id="theme-toggle" class="control-btn" type="button">
+			<span id="theme-icon">🌙</span>
+			<span id="theme-text">Mode Gelap</span>
+		</button>
+	</div>
+
+	<div class="card">
+		<!-- HEADER / NAMA PENGANTIN -->
+		<header class="header">
+			<div class="header-inner">
+				<div class="tagline">UNDANGAN PERNIKAHAN</div>
+				<h1 class="names">Nama Mempelai Pria</h1>
+				<div class="and">&amp;</div>
+				<h1 class="names">Nama Mempelai Wanita</h1>
+				<p class="sub-names">Sabtu, 01 Januari 2026 &middot; Gedung / Rumah / Lokasi Acara</p>
+				<div class="divider"></div>
+
+				<!-- NAV UNTUK SCROLL HALUS -->
+				<nav class="top-nav">
+					<a href="#pembuka">Pembuka</a>
+					<a href="#mempelai">Mempelai</a>
+					<a href="#waktu-tempat">Waktu & Tempat</a>
+					<a href="#penutup">Penutup</a>
+				</nav>
+			</div>
+		</header>
+
+		<!-- PEMBUKA -->
+		<section class="section text-center" id="pembuka">
+			<p class="bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+			<p class="paragraph">
+				Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan
+				akad nikah dan resepsi pernikahan putra-putri kami. Dengan segala hormat,
+				kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu.
+			</p>
+			<p class="ayat">
+				“Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan
+				untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tentram kepadanya,
+				dan Dia menjadikan di antaramu rasa kasih dan sayang.”
+				<br />
+				<span>(QS. Ar-Rum : 21)</span>
+			</p>
+		</section>
+
+		<!-- DATA MEMPELAI -->
+		<section class="section" id="mempelai">
+			<h2 class="section-title">Mempelai</h2>
+			<p class="section-subtitle">InsyaAllah akan dipersatukan dalam ikatan pernikahan yang suci</p>
+
+			<div class="info-grid">
+				<div class="info-box">
+					<div class="info-label">Mempelai Pria</div>
+					<div class="info-main">Nama Lengkap Mempelai Pria</div>
+					<div class="info-detail">
+						Putra dari Bapak <span class="highlight">Nama Ayah Pria</span><br />
+						dan Ibu <span class="highlight">Nama Ibu Pria</span>
+					</div>
+				</div>
+
+				<div class="info-box">
+					<div class="info-label">Mempelai Wanita</div>
+					<div class="info-main">Nama Lengkap Mempelai Wanita</div>
+					<div class="info-detail">
+						Putri dari Bapak <span class="highlight">Nama Ayah Wanita</span><br />
+						dan Ibu <span class="highlight">Nama Ibu Wanita</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- WAKTU & TEMPAT -->
+		<section class="section" id="waktu-tempat">
+			<h2 class="section-title">Waktu & Tempat</h2>
+			<p class="section-subtitle">Mohon kehadiran Bapak/Ibu/Saudara/i pada waktu dan tempat berikut</p>
+
+			<div class="info-grid">
+				<div class="info-box">
+					<div class="info-label">Akad Nikah</div>
+					<div class="info-main">Sabtu, 01 Januari 2026</div>
+					<div class="info-detail">
+						Pukul 08.00 WIB s.d. selesai <br />
+						Tempat: Masjid / Lokasi Akad
+					</div>
+				</div>
+
+				<div class="info-box">
+					<div class="info-label">Resepsi</div>
+					<div class="info-main">Sabtu, 01 Januari 2026</div>
+					<div class="info-detail">
+						Pukul 11.00 WIB s.d. 14.00 WIB <br />
+						Tempat: Gedung / Rumah / Lokasi Resepsi
+					</div>
+				</div>
+			</div>
+
+			<!-- GOOGLE MAPS -->
+			<div class="maps-wrapper">
+				<p class="maps-note">
+					Lokasi acara dapat dilihat pada peta berikut (silakan sesuaikan titik lokasi di Google Maps).
+				</p>
+
+				<!-- GANTI src IFRAME INI DENGAN LINK EMBED GOOGLE MAPS LOKASIMU -->
+				<iframe class="maps-frame" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+					src="https://www.google.com/maps/embed?pb=<!-- GANTI DENGAN KODE EMBED GOOGLE MAPS ANDA -->">
+				</iframe>
+
+				<!-- TOMBOL BUKA DI GOOGLE MAPS -->
+				<a href="https://maps.app.goo.gl/SVVBoE1NvPAuexuH8?g_st=aw" target="_blank" rel="noopener"
+					class="btn-maps">
+					Buka Lokasi di Google Maps
+				</a>
+			</div>
+		</section>
+
+		<!-- PENUTUP -->
+		<section class="section text-center" id="penutup">
+			<p class="paragraph">
+				Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
+				berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+			</p>
+			<p class="paragraph">
+				Atas kehadiran dan doa restunya, kami ucapkan terima kasih.
+			</p>
+			<br />
+			<p class="paragraph">
+				Hormat kami yang berbahagia,
+			</p>
+			<p class="paragraph">
+				Keluarga Besar <strong>Nama Keluarga Mempelai Pria</strong><br />
+				&amp;<br />
+				Keluarga Besar <strong>Nama Keluarga Mempelai Wanita</strong>
+			</p>
+		</section>
+
+		<footer class="footer">
+			<p>Terima kasih atas doa dan restu Anda.</p>
+			<p><strong>Nama Mempelai Pria &amp; Nama Mempelai Wanita</strong></p>
+		</footer>
+	</div>
+
+	<!-- SCRIPT: MUSIK + DARK/LIGHT MODE -->
+	<script>
+		const audio = document.getElementById('bg-music');
+		const musicToggle = document.getElementById('music-toggle');
+		const musicIcon = document.getElementById('music-icon');
+		const musicText = document.getElementById('music-text');
+
+		const themeToggle = document.getElementById('theme-toggle');
+		const themeIcon = document.getElementById('theme-icon');
+		const themeText = document.getElementById('theme-text');
+
+		let isPlaying = false;
+
+		function updateMusicButton() {
+			if (isPlaying) {
+				musicIcon.textContent = '🔊';
+				musicText.textContent = 'Matikan musik';
+			} else {
+				musicIcon.textContent = '🔇';
+				musicText.textContent = 'Klik untuk putar musik';
+			}
+		}
+
+		// Coba autoplay dengan volume kecil (kadang diblokir browser)
+		window.addEventListener('load', () => {
+			if (audio) {
+				audio.volume = 0.5;
+				audio.play().then(() => {
+					isPlaying = true;
+					updateMusicButton();
+				}).catch(() => {
+					isPlaying = false;
+					updateMusicButton();
+				});
+			}
+		});
+
+		musicToggle.addEventListener('click', () => {
+			if (!audio) return;
+
+			if (isPlaying) {
+				audio.pause();
+				isPlaying = false;
+			} else {
+				audio.play().then(() => {
+					isPlaying = true;
+				}).catch(() => {
+					isPlaying = false;
+				});
+			}
+			updateMusicButton();
+		});
+
+		// THEME HANDLER
+		function applyTheme(theme) {
+			if (theme === 'dark') {
+				document.body.classList.add('dark-mode');
+				themeIcon.textContent = '☀️';
+				themeText.textContent = 'Mode Terang';
+			} else {
+				document.body.classList.remove('dark-mode');
+				themeIcon.textContent = '🌙';
+				themeText.textContent = 'Mode Gelap';
+			}
+			localStorage.setItem('theme', theme);
+		}
+
+		// Set awal: dari localStorage atau preferensi sistem
+		(function initTheme() {
+			const saved = localStorage.getItem('theme');
+			if (saved === 'dark' || saved === 'light') {
+				applyTheme(saved);
+			} else {
+				const prefersDark = window.matchMedia &&
+					window.matchMedia('(prefers-color-scheme: dark)').matches;
+				applyTheme(prefersDark ? 'dark' : 'light');
+			}
+		})();
+
+		themeToggle.addEventListener('click', () => {
+			const nowDark = document.body.classList.contains('dark-mode');
+			applyTheme(nowDark ? 'light' : 'dark');
+		});
+	</script>
+</body>
+
+</html>
