@@ -15,12 +15,16 @@
 
 	<style>
 		:root {
-			--primary: #c59d5f;
-			--page-bg: radial-gradient(circle at top, #f6eee3, #f3e8dc);
-			--bg-card: #faf7f2;
-			--text-main: #333;
-			--muted: #777;
-		}
+    --primary: #38bdf8;
+    --page-bg: linear-gradient(135deg, #0b1f4a, #ffffff);
+    --bg-card: #0b1f4a;
+    --text-main: #ffffff;
+    --muted: #d1e5ff;
+
+    /* PENTING: ganti nama file sesuai fotomu */
+    --hero-photo: url("p.jpg");
+}
+
 
 		/* === DARK MODE VARIABLE OVERRIDE === */
 		body.dark-mode {
@@ -28,7 +32,8 @@
 			--bg-card: #020617;
 			--text-main: #e5e7eb;
 			--muted: #9ca3af;
-			--primary: #fbbf24;
+			--primary: #38bdf8;
+			/* tetap biru aksen */
 		}
 
 		* {
@@ -62,7 +67,8 @@
 			width: 220px;
 			height: 220px;
 			border-radius: 50%;
-			background: radial-gradient(circle, rgba(197, 157, 95, 0.16), transparent 70%);
+			/* dari emas ke biru lembut */
+			background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent 70%);
 			z-index: -1;
 			opacity: 0.7;
 			pointer-events: none;
@@ -87,11 +93,13 @@
 			max-width: 800px;
 			width: 100%;
 			background: var(--bg-card);
+			/* navy */
 			border-radius: 24px;
-			box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+			box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 			overflow: hidden;
-			border: 1px solid rgba(0, 0, 0, 0.04);
+			border: 1px solid rgba(15, 23, 42, 0.6);
 			transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+			color: var(--text-main);
 		}
 
 		body.dark-mode .card {
@@ -99,20 +107,25 @@
 			border-color: rgba(148, 163, 184, 0.4);
 		}
 
-		.header {
-			padding: 32px 24px 16px;
-			text-align: center;
-			background: linear-gradient(135deg, #f9f3ea, #fdfaf6);
-			border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-			position: relative;
-			overflow: hidden;
-			transition: background 0.3s ease, border-color 0.3s ease;
-		}
+	.header {
+    padding: 200px 24px 140px; /* tinggi atas bawah agar foto lebih muncul */
+    height: auto;
+    min-height: 520px; /* hero ideal untuk laptop/mobile */
+    background:
+        linear-gradient(180deg, rgba(15,23,42,0.35), rgba(15,23,42,0.95)),
+        var(--hero-photo);
+    background-size: cover;
+    background-position: center 25%; /* fokus area wajah 25% dari atas */
+    background-repeat: no-repeat;
+}
 
 		body.dark-mode .header {
-			background: linear-gradient(135deg, #020617, #020617);
-			border-bottom-color: rgba(148, 163, 184, 0.5);
-		}
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.7), #020617),
+        var(--hero-photo);
+    background-size: cover;
+    background-position: center 25%;
+}
 
 		.header::before,
 		.header::after {
@@ -121,7 +134,8 @@
 			width: 120px;
 			height: 120px;
 			border-radius: 50%;
-			border: 1px solid rgba(197, 157, 95, 0.12);
+			/* garis lingkar biru lembut */
+			border: 1px solid rgba(59, 130, 246, 0.3);
 			top: -40px;
 			z-index: 0;
 		}
@@ -142,6 +156,13 @@
 		.header-inner {
 			position: relative;
 			z-index: 1;
+			/* panel gelas biar teks kebaca di atas foto */
+			background: rgba(15, 23, 42, 0.55);
+			border-radius: 20px;
+			padding: 18px 16px 16px;
+			backdrop-filter: blur(6px);
+			max-width: 460px;
+			margin: 0 auto;
 		}
 
 		.tagline {
@@ -156,7 +177,8 @@
 			font-family: "Playfair Display", serif;
 			font-size: 2.1rem;
 			font-weight: 700;
-			color: var(--primary);
+			color: #ffffff;
+			/* nama mempelai putih */
 			margin-bottom: 4px;
 		}
 
@@ -177,6 +199,7 @@
 			width: 80px;
 			height: 1px;
 			background: linear-gradient(90deg, transparent, var(--primary), transparent);
+			/* biru aksen */
 			position: relative;
 			overflow: hidden;
 		}
@@ -187,7 +210,8 @@
 			display: inline-flex;
 			padding: 6px 10px;
 			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.7);
+			/* dari putih buram ke navy buram */
+			background: rgba(15, 23, 42, 0.7);
 			backdrop-filter: blur(10px);
 			gap: 4px;
 		}
@@ -207,13 +231,14 @@
 
 		.top-nav a:hover {
 			background: var(--primary);
-			color: #fff;
+			/* biru muda */
+			color: #0b1120;
 			transform: translateY(-1px);
 		}
 
 		.section {
 			padding: 24px 24px;
-			border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+			border-bottom: 1px solid rgba(15, 23, 42, 0.7);
 			transition: background 0.3s ease, border-color 0.3s ease;
 		}
 
@@ -229,6 +254,7 @@
 			font-family: "Playfair Display", serif;
 			font-size: 1.1rem;
 			color: var(--primary);
+			/* biru aksen */
 			margin-bottom: 8px;
 			text-align: center;
 		}
@@ -248,6 +274,7 @@
 			font-size: 0.95rem;
 			line-height: 1.7;
 			margin-bottom: 10px;
+			color: var(--text-main);
 		}
 
 		.bismillah {
@@ -271,10 +298,11 @@
 		}
 
 		.info-box {
-			background: white;
+			/* dari putih solid ke navy transparan */
+			background: rgba(15, 23, 42, 0.85);
 			border-radius: 18px;
 			padding: 16px 14px;
-			border: 1px solid rgba(0, 0, 0, 0.03);
+			border: 1px solid rgba(148, 163, 184, 0.5);
 			position: relative;
 			overflow: hidden;
 			transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.2s ease;
@@ -289,7 +317,7 @@
 			content: "";
 			position: absolute;
 			inset: 0;
-			background: radial-gradient(circle at top, rgba(197, 157, 95, 0.08), transparent 70%);
+			background: radial-gradient(circle at top, rgba(59, 130, 246, 0.22), transparent 70%);
 			opacity: 0;
 			transition: opacity 0.15s ease;
 			pointer-events: none;
@@ -297,8 +325,8 @@
 
 		.info-box:hover {
 			transform: translateY(-2px);
-			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-			border-color: rgba(197, 157, 95, 0.32);
+			box-shadow: 0 8px 20px rgba(15, 23, 42, 0.7);
+			border-color: rgba(59, 130, 246, 0.7);
 		}
 
 		.info-box:hover::before {
@@ -317,6 +345,7 @@
 			font-size: 0.95rem;
 			font-weight: 500;
 			margin-bottom: 4px;
+			color: var(--text-main);
 		}
 
 		.info-detail {
@@ -327,6 +356,7 @@
 		.highlight {
 			font-weight: 600;
 			color: var(--primary);
+			/* biru aksen */
 		}
 
 		.maps-wrapper {
@@ -344,13 +374,13 @@
 			border-radius: 18px;
 			border: none;
 			min-height: 220px;
-			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 			transition: transform 0.15s ease, box-shadow 0.15s ease;
 		}
 
 		.maps-frame:hover {
 			transform: translateY(-2px);
-			box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
 		}
 
 		.btn-maps {
@@ -360,16 +390,17 @@
 			font-size: 0.9rem;
 			border-radius: 999px;
 			border: 1px solid var(--primary);
-			color: white;
+			color: #ffffff;
 			background: var(--primary);
+			/* tombol biru */
 			text-decoration: none;
 			transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
 		}
 
 		.btn-maps:hover {
 			transform: translateY(-1px);
-			box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-			background: #b48841;
+			box-shadow: 0 8px 18px rgba(15, 23, 42, 0.6);
+			background: #0ea5e9;
 		}
 
 		.footer {
@@ -461,14 +492,16 @@
 			}
 		}
 	</style>
+
 </head>
 
 <body>
 	<!-- MUSIK LATAR (GANTI src DENGAN FILE MP3 KAMU) -->
 	<audio id="bg-music" loop>
 		<!-- Contoh: letakkan file musik-romantis.mp3 di folder yang sama -->
-		<source src="Jaz_-_Bersamamu__Official_Lyric_Video_(128k).m4a" type="audio/mp4" />
-		Browser Anda tidak mendukung pemutar audio.
+		<source
+			src="https://raw.githubusercontent.com/kherul123/undangan/main/Jaz_-_Bersamamu__Official_Lyric_Video_(128k).m4a"
+			type="audio/mp4">
 	</audio>
 
 	<!-- FLOATING BUTTON: MUSIK & TEMA -->
@@ -702,6 +735,5 @@
 		});
 	</script>
 </body>
-
 
 </html>
